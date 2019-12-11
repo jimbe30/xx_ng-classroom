@@ -1,0 +1,12 @@
+<li [ngClass]="{'list-group-item': true,
+                'list-group-item-success': appareilStatus === 'démarrée',
+                'list-group-item-danger': appareilStatus === 'arrêtée'}">
+
+	<div style="width:20px;height:20px;background-color:red;" 
+       *ngIf="appareilStatus === 'arrêtée'"></div>
+
+	<p [ngStyle]="{color: getColor()}">Machine {{ appareilName }} - Statut : {{ getStatus() }}</p>
+
+	<input type="text" class="form-control" [(ngModel)]="appareilName">
+
+</li>
