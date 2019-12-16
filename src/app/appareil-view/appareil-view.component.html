@@ -1,0 +1,13 @@
+<h2>Les meules</h2>
+<p>Dernière mise à jour : {{ lastUpdate | async | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+
+<ul class="list-group">
+	<app-appareil *ngFor="let appareil of appareils; let i = index" 
+			[appareilName]="appareil.name"
+			[appareilStatus]="appareil.status" 
+			[index]="i"
+			[id]="appareil.id"></app-appareil>
+</ul>
+<p></p>
+<button class="btn btn-success" [disabled]="!isAuth" (click)="onAllumer()">Tout démarrer</button>
+<button class="btn btn-danger" [disabled]="!isAuth" (click)="onEteindre()">Tout arrêter</button>
