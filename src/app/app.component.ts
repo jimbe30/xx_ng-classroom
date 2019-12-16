@@ -1,46 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-
-	isAuth: boolean = false;
+export class AppComponent implements OnInit, OnDestroy {
+	
 	title: string = 'the Jungle';
+	secondes: number;
+	observateur: Subscription;
 
-	appareils = [{
-		name: 'Triumph Street RS',
-		status: 'arrêtée'
-	}, {
-		name: '675 Street Triple R',
-		status: 'démarrée'
-	}, {
-		name: 'Yamaha YZF-R1',
-		status: 'arrêtée'
-	}
-	];
-
-	constructor() {
-		setTimeout(() => {
-			this.isAuth = true;
-		}, 5000);
-	}
-
-	lastUpdate = new Promise((resolve, reject) => {
-		const date = new Date();
-		setTimeout(
+	ngOnInit() {
+		const counter = Observable.interval(1000);
+		this.observateur = counter.subscribe(
+			(value) => {
+				this.secondes = value;
+			},
+			(error) => {
+				console.log('Uh-oh, an error occurred! : ' + error);
+			},
 			() => {
-				resolve(date);
-			}, 2000
+				console.log('Observable complete!');
+			}
 		);
-	});
+	}
 
-	onAllumer = function (): void {
-		console.log('On allume tout !');
-	};
-
-
-
+	ngOnDestroy(): void {
+		this.observateur.unsubscribe();
+	}
 }
